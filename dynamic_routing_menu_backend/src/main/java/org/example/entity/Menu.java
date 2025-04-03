@@ -1,0 +1,97 @@
+package org.example.entity;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+@TableName(value = "system_menu_table")
+public class Menu implements Serializable {
+   @TableId
+   private Long menuId;
+   private String menuName;
+   private String menuPath;
+   private String menuComponent;
+
+   private String menuTitle;
+
+   private Long parentId;
+   @TableField(exist = false)
+   private List<Menu> children;
+
+   public Long getMenuId() {
+      return menuId;
+   }
+
+   public void setMenuId(Long menuId) {
+      this.menuId = menuId;
+   }
+
+   public String getMenuName() {
+      return menuName;
+   }
+
+   public void setMenuName(String menuName) {
+      this.menuName = menuName;
+   }
+
+   public String getMenuPath() {
+      return menuPath;
+   }
+
+   public void setMenuPath(String menuPath) {
+      this.menuPath = menuPath;
+   }
+
+   public String getMenuComponent() {
+      return menuComponent;
+   }
+
+   public void setMenuComponent(String menuComponent) {
+      this.menuComponent = menuComponent;
+   }
+
+   public String getMenuTitle() {
+      return menuTitle;
+   }
+
+   public void setMenuTitle(String menuTitle) {
+      this.menuTitle = menuTitle;
+   }
+
+   public Long getParentId() {
+      return parentId;
+   }
+
+   public void setParentId(Long parentId) {
+      this.parentId = parentId;
+   }
+
+   public List<Menu> getChildren() {
+      if (children == null) {
+         children = new ArrayList<>();
+      }
+      return children;
+   }
+
+   public void setChildren(List<Menu> children) {
+       this.children = children;
+   }
+
+   @Override
+   public String toString() {
+      return "Menu{" +
+              "menuId=" + menuId +
+              ", menuName='" + menuName + '\'' +
+              ", menuPath='" + menuPath + '\'' +
+              ", menuComponent='" + menuComponent + '\'' +
+              ", menuTitle='" + menuTitle + '\'' +
+              ", parentId=" + parentId +
+              ", children=" + children +
+              '}';
+   }
+}
