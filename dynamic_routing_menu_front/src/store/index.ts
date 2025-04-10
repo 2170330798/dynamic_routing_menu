@@ -1,14 +1,5 @@
-/*
- * pinia持久化
- * 
- *
-*/
+import { createPinia } from "pinia";
 
-//导入仓库
-import { createPinia}  from 'pinia'
+const pinia = createPinia();
 
-//创建仓库
-const store = createPinia();
-
-//导出仓库
-export default store;
+export default pinia;

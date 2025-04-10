@@ -11,4 +11,10 @@ public interface MenuService extends IService<Menu> {
 
     /*查询菜单数据并返回菜单结构*/
     List<Menu> findMenuTree();
+
+    boolean addMenu(Menu menu);
+
+    boolean deleteMenu(Long menuId); // 删除菜单（新增）
+
+    boolean updateMenu(Menu menu);
 }

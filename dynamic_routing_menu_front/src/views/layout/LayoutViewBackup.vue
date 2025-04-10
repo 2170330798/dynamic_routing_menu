@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router';
-import { useMenuStore } from '../../store/menu/menu';
+import { useMenuStore } from '../../components/menu/menu';
 import { fetchMenuData, flattenMenuTree } from '../menu/menu';
 
 const route = useRoute();

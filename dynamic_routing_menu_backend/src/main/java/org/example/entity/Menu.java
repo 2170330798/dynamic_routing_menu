@@ -1,9 +1,9 @@
 package org.example.entity;
-
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,15 +11,16 @@ import java.util.List;
 
 @TableName(value = "system_menu_table")
 public class Menu implements Serializable {
-   @TableId
+   @TableId(type = IdType.INPUT)
    private Long menuId;
    private String menuName;
    private String menuPath;
+   private String menuIcon;
    private String menuComponent;
-
    private String menuTitle;
-
    private Long parentId;
+   private Boolean isDirectory;
+
    @TableField(exist = false)
    private List<Menu> children;
 
@@ -82,15 +83,34 @@ public class Menu implements Serializable {
        this.children = children;
    }
 
+
+   public Boolean getIsDirectory() {
+      return isDirectory;
+   }
+
+   public void setIsDirectory(Boolean isDirectory) {
+      this.isDirectory = isDirectory;
+   }
+
+   public String getMenuIcon() {
+      return menuIcon;
+   }
+
+   public void setMenuIcon(String menuIcon) {
+      this.menuIcon = menuIcon;
+   }
+
    @Override
    public String toString() {
       return "Menu{" +
               "menuId=" + menuId +
               ", menuName='" + menuName + '\'' +
               ", menuPath='" + menuPath + '\'' +
+              ", menuIcon='" + menuIcon + '\'' +
               ", menuComponent='" + menuComponent + '\'' +
               ", menuTitle='" + menuTitle + '\'' +
               ", parentId=" + parentId +
+              ", isDirectory=" + isDirectory +
               ", children=" + children +
               '}';
    }

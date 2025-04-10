@@ -1,3 +1,13 @@
 <template>
-    <h1>菜单管理</h1>
+    
+    
+        <MenuListView />
+    
+    
 </template>
+
+
+<script setup lang="ts">
+import MenuListView from './MenuListView.vue';
+
+</script>

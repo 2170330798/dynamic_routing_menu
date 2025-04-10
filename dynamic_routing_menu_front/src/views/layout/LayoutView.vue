@@ -4,10 +4,19 @@
       <h1>动态路由</h1>
     </el-header>
     <el-container>
-      <el-aside>
+      <el-aside class="aside-container">
         <el-menu :default-active="activeIndex">
           <!-- 使用 @node-click 并设置 current-node-key -->
-          <el-tree class="custom-tree" :data="menus" :props="treeProps" node-key="menuPath" :current-node-key="activeIndex" @node-click="handleSelect"/>
+          <el-tree class="custom-tree" :data="menus" :props="treeProps" node-key="menuPath" :current-node-key="activeIndex" @node-click="handleSelect">
+            <template #default="{ node, data }">
+              <span class="custom-tree-node">
+                <el-icon v-if="data.menuIcon">
+                  <component :is="data.menuIcon" /> <!-- 动态图标组件 -->
+                </el-icon>
+              </span>
+              <span>{{ node.label }}</span>
+            </template>
+          </el-tree>
         </el-menu>
       </el-aside>
       <el-main>
@@ -18,26 +27,35 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { useMenuStore } from '../../store/menu/menu';
-import { fetchMenuData } from '../menu/menu';
+import { useMenuStore } from '../../store/menu/index';
+import pinia from '../../store';
 
 const route = useRoute();
 const router = useRouter();
-const store = useMenuStore();
+const store = useMenuStore(pinia);
 const activeIndex = ref(route.path);
-const menus = ref<any[]>([]);
+//const menuKey = ref(0); // 用于强制重新渲染
 const treeProps = ref({
   label: 'menuTitle',
   children: 'children',
 });
 
-onMounted(async () => {
-  await fetchMenuData();
-  menus.value = store.getMenuTree;
-  console.log('当前路由:', route.path); // 调试用
+import { watch } from 'vue';
+
+// 使用计算属性获取菜单数据
+const menus = computed(() => store.getMenuTree);
+
+// 监听路由变化更新高亮
+watch(() => route.path, (newPath) => {
+  activeIndex.value = newPath;
 });
+
+// 监听菜单数据变化，必要时强制重新渲染
+// watch(() => store.getMenuTree, () => {
+//   menuKey.value += 1;
+// }, { deep: true });
 
 // 修正：使用 el-tree 的 node-click 事件
 const handleSelect = (menu: any) => {
@@ -52,8 +70,8 @@ const handleSelect = (menu: any) => {
 
 <style>
 .el-container {
-  border: 1px solid #ccc;
-  height: 100vh; /* 确保容器占满全屏 */
+  /* border: 1px solid #ccc; */
+  height: 80vh; /* 确保容器占满全屏 */
 }
 
 .el-header h1{
@@ -68,9 +86,9 @@ const handleSelect = (menu: any) => {
   background-color: #f5f5f5;
 }
 
-.el-main {
+/* .el-main {
   padding: 20px;
-}
+} */
 
 
 /* 将展开图标移到右侧 */
@@ -86,4 +104,25 @@ const handleSelect = (menu: any) => {
     align-items: center;
 }
 
+.custom-tree-node {
+  display: flex;
+  align-items: center;
+  width: 32px;
+}
+
+.el-icon {
+  font-size: 18px;
+  /* margin-left: 0px; */
+}
+
+.custom-tree{
+   color: #8d909b;
+   width: 100%;
+}
+
+
+.aside-container{
+   width: 180px;
+   height: 100%;
+}
 </style>
