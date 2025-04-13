@@ -65,6 +65,14 @@ const handleSelect = (menu: any) => {
     console.log(menu.menuPath);
   }
 };
+
+// const isCollapse = ref(true)
+// const handleOpen = (key: string, keyPath: string[]) => {
+//   console.log(key, keyPath)
+// }
+// const handleClose = (key: string, keyPath: string[]) => {
+//   console.log(key, keyPath)
+// }
 </script>
 
 
@@ -81,15 +89,10 @@ const handleSelect = (menu: any) => {
 }
 
 .el-aside {
-  width: 150px;
+  width: 145px;
   height: 100%;
   background-color: #f5f5f5;
 }
-
-/* .el-main {
-  padding: 20px;
-} */
-
 
 /* 将展开图标移到右侧 */
 .custom-tree .el-tree-node__expand-icon {
@@ -100,19 +103,18 @@ const handleSelect = (menu: any) => {
 /* 调整子节点的缩进（可选） */
 .custom-tree .el-tree-node__content{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 }
 
 .custom-tree-node {
-  display: flex;
-  align-items: center;
+  margin-left: 0px;
   width: 32px;
 }
 
 .el-icon {
   font-size: 18px;
-  /* margin-left: 0px; */
+  margin-left: 0px;
 }
 
 .custom-tree{
@@ -122,7 +124,7 @@ const handleSelect = (menu: any) => {
 
 
 .aside-container{
-   width: 180px;
+   width: 150px;
    height: 100%;
 }
 </style>

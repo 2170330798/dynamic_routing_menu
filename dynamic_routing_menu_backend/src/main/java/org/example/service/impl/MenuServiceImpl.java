@@ -108,7 +108,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         if (this.getById(menu.getMenuId())== null) {
             throw new IllegalArgumentException("菜单ID不能为空");
         }
-        
+
         if (menu.getMenuIcon() == null) {
             throw new IllegalArgumentException("菜单图标不能为空");
         }

@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, reactive, ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { tempMenuList, type IMenuList } from '../../components/menu/menu';
 import { useMenuStore } from '../../store/menu';
 import pinia from '../../store';
@@ -198,27 +198,22 @@ const rules: FormRules = {
   ]
 };
 
-// 暴露方法给父组件
-defineExpose({
-  initForm
-});
-
 // 初始化表单方法
-function initForm (rowData?: IMenuList) {
-  if (rowData && store.getIsUpdate) {
-    // 编辑模式，复制当前行数据
-    Object.assign(menu, {...rowData});
-  } else {
-    // 添加模式，重置表单
-    Object.assign(menu, {...tempMenuList});
-  }
+// function initForm (rowData?: IMenuList) {
+//   if (rowData && store.getIsUpdate) {
+//     // 编辑模式，复制当前行数据
+//     Object.assign(menu, {...rowData});
+//   } else {
+//     // 添加模式，重置表单
+//     Object.assign(menu, {...tempMenuList});
+//   }
   
-  // 重置表单验证状态
-  nextTick(() => {
-    formRef.value?.clearValidate();
-    updateSubmitButtonState();
-  });
-}
+//   // 重置表单验证状态
+//   nextTick(() => {
+//     formRef.value?.clearValidate();
+//     updateSubmitButtonState();
+//   });
+// }
 
 
 //初始验证：在组件挂载时执行一次验证

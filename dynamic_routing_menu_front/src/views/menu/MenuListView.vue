@@ -62,10 +62,6 @@ const menuFormRef = ref(); // 添加对子组件的引用
 const openDialog = () => {
     store.setIsUpdate(false); // 设置为添加模式
     dialogVisible.value = true;
-    nextTick(() => {
-        // 添加模式下不传参数，子组件会清空表单
-        menuFormRef.value.initForm();
-    });
 };
 
 // 使用computed实现实时搜索
