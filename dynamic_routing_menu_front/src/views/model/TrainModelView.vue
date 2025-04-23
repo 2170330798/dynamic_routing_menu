@@ -1,99 +1,120 @@
 <template>
     <div class="train-container">
-        <div class="header-container">
+         <div class="header-container">
              <h1>训练模型</h1>
         </div>
-        <div class="btn-container">
-            <el-upload ref="upload" class="upload-btn" :show-file-list="false" action="" :limit="1" :on-exceed="handleExceed" :on-change="handleFileChange" :auto-upload="false">
-                <template #trigger>
-                    <el-input class="input-btn" v-model="filename"   size="small" placeholder="请选择上传数据集" readonly/>
-                </template>
-                <el-button class="ml-3" size="small" type="primary" @click="submitUpload">上传</el-button>
-            </el-upload>
-            <el-select class="select-btn1" v-model="value" size="small" placeholder="选则数据库数据集" style="width: 150px">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
-            <el-select class="select-btn2" v-model="value" size="small" placeholder="选择训练模型" style="width: 150px">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
-            <el-button class="train-btn" type="primary" size="small" >训练</el-button>
+        <div class="train-btn-container">   
+            <el-button class="train-data-btn" type="primary" :icon="Setting" @click="setTrainParams">设置训练参数</el-button>
+            <el-button class="train-btn" type="primary" :icon="VideoPlay" @click="startTrainModel">训练模型</el-button>
         </div>
         <div class="table-container1">
              <FrameList />
         </div>
     </div>
+    <el-dialog class="train-params-dialog" v-model="dialogVisible1" title="设置训练参数" width="500" draggable>
+        <FormView @close-dialog="closeDialog1"/>
+    </el-dialog>
+    <el-dialog class="start-train-dialog" v-model="dialogVisible2" title="设置训练参数" width="500" draggable>
+        <TrainingProgressView :task-id="currentTaskId" :should-connect="shouldConnectWs"/>
+    </el-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { genFileId } from 'element-plus';
-import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
-import FrameList from './FrameList.vue';
-const filename = ref('');
-const upload = ref<UploadInstance>();
-const handleExceed: UploadProps['onExceed'] = (files) => {
-  upload.value!.clearFiles();
-  const file = files[0] as UploadRawFile;
-  file.uid = genFileId();
-  upload.value!.handleStart(file);
-}
+import { Setting, VideoPlay } from '@element-plus/icons-vue';
+import { ref, computed } from 'vue';
+import FrameList  from './FrameList.vue';
+import FormView from './FormView.vue';
+import { useTrainStore } from '../../store/train';
+import { trainModel } from '../../api/train';
+import TrainingProgressView from './TrainingProgressView.vue';
+import { ElMessage } from 'element-plus';
 
-// 新增：文件变化时更新 filename
-const handleFileChange: UploadProps["onChange"] = (file: UploadFile) => {
-  filename.value = file.name;  // 更新文件名
+const dialogVisible1 = ref(false);
+const dialogVisible2 = ref(false);
+const currentTaskId = ref(''); // 新增任务ID
+const shouldConnectWs = ref(false)
+
+const store = useTrainStore();
+const closeDialog1 = () => {
+    dialogVisible1.value = false;
 };
 
-const submitUpload = () => {
-  upload.value!.submit();
+const closeDialog2 = () =>{
+    dialogVisible2.value = false;
 }
 
-const value = ref('');
-const options = [
-  {
-    value: 'Option1',
-    label: 'CNN',
-  },
-  {
-    value: 'Option2',
-    label: 'RNN',
-  },
-  {
-    value: 'Option3',
-    label: 'DCNN',
-  },
-  {
-    value: 'Option4',
-    label: 'SelfAttentionCNN',
+// ✅ 直接使用计算属性（保持响应式）
+
+// const startTrainModel = async() => {
+//      const result = await trainModel(store.getTrainData);
+//      console.log(result);
+//      dialogVisible2.value = false;
+// }
+
+const startTrainModel = async() => {
+    // 生成唯一任务ID
+    currentTaskId.value = `task_${Date.now().toString().slice(-8)}`; // 取后8位减少长度
+    
+    // 先重置连接状态
+    shouldConnectWs.value = false;
+    
+    // 打开进度对话框
+    dialogVisible2.value = true;
+
+    try {
+        const result = await trainModel({
+        ...store.getTrainData,
+        taskId: currentTaskId.value
+        })
+        
+        // 只有返回200时才建立连接
+        if (result.status === 200) {
+        shouldConnectWs.value = true
+        } else {
+        dialogVisible2.value = false
+        ElMessage.error('训练进度条启动失败')
+        }
+  } catch (error) {
+    dialogVisible2.value = false
+    ElMessage.error('训练进度条请求失败')
   }
-]
+}
+const setTrainParams = () => {
+    dialogVisible1.value = true;
+}
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .train-container{
-    width: 800px;
+    width: 100%;
     height: 90vh;
-    background-color: rgba(241, 245, 244, 0.613);
+    background-color: rgba(251, 253, 252, 0.613);
 }
 .header-container{
-    width: 800px;
+    width: 100%;
     height: 30px;
     text-align: center;
-    background-color: aquamarine;
+    /* background-color: rgba(248, 250, 252, 0.098); */
 }
-.btn-container{
+.train-btn-container{
      width: 100%;
      height: 50px;
      display: flex;
-     justify-content: center;
-     background-color: rgb(204, 196, 226);
+     justify-content: right;
+     align-items: center;
+     background-color: rgba(219, 217, 214, 0.204);
 }
-.upload-btn{
-    margin-right: 9.5%;
-}
-.select-btn1{
-    margin-right: 10%;
-}
-.train-btn{
-    margin-left: 10%;
+
+/* .train-btn{
+    margin-right: 0%;
+} */
+
+.train-params-dialog{
+    width: 100%;
+    max-width: 1200px;
+    margin-right: 30px;
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
 }
 </style>

@@ -6,6 +6,7 @@ declare module '*.vue' {
     const component: DefineComponent<{}, {}, any>;
     export default component;
 }
+
 //动态菜单数据请求路径
 export const GET_MENU_REQUEST_API = 'http://localhost:8080/menu/get'
 export const ADD_MENU_REQUEST_API = 'http://localhost:8080/menu/add';
@@ -26,6 +27,21 @@ export const UPDATE_FRAME_REQUEST_API = 'http://localhost:8080/frame/update';
 
 //网络流量数据请求路径
 export const GET_TRAFFIC_REQUEST_API = 'http://localhost:8080/traffic/get'
+export const GET_TRAFFIC_BY_PAGE_REQUEST_API = 'http://localhost:8080/traffic/page' 
 export const ADD_TRAFFIC_REQUEST_API = 'http://localhost:8080/traffic/add';
 export const DELETE_TRAFFIC_REQUEST_API ='http://localhost:8080/traffic/delete';
 export const UPDATE_TRAFFIC_REQUEST_API = 'http://localhost:8080/traffic/update';
+
+//训练模型
+export const TRAIN_MODEL_REQUEST_API = 'http://localhost:8080/train/start';
+
+
+
+//登入验证
+export const LOGIN_REQUEST_API = 'http://localhost:8080/user/login'
+
+//用户
+export const GET_USER_REQUEST_API = 'http://localhost:8080/user/list'
+export const DELETE_USER_REQUEST_API = 'http://localhost:8080/user/delete'
+export const UPDATE_USER_REQUEST_API = 'http://localhost:8080/user/update'
+export const ADD_USER_REQUEST_API = 'http://localhost:8080/user/add'

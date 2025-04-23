@@ -1,5 +1,4 @@
 <template>
-
   <div ref="chartRef" class="serial-box"></div>
   
 </template>
@@ -16,13 +15,13 @@ onMounted(() => {
   const myChart = echarts.init(chartRef.value);
   myChart.setOption({
     xAxis: { 
-      data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'] 
+      data: ['UDP', 'TCP', 'HTTP', 'HTTPS', 'FTP', 'NFS'] 
     },
     yAxis: {},
     series: [{ 
       name: '销量', 
       type: 'bar', 
-      data: [5, 20, 36, 10, 10, 20] 
+      data: [5, 20, 45, 15, 10, 20] 
     }]
   });
 });
@@ -32,11 +31,11 @@ onMounted(() => {
 <style lang="css">
 .serial-box {
    width: 100%;
-   height: 90vh;
+   height: 75vh;
    display: flex;
    justify-content: center;
    align-items: center;
-   background-color: antiquewhite;
+   background-color: rgb(249, 248, 247);
 }
 
 

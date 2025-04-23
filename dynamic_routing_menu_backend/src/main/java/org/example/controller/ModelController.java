@@ -19,7 +19,7 @@ public class ModelController {
     private ModelService modelService;
 
     @GetMapping("/get")
-    public ResponseResult<List<Model>> getMenuTree() {
+    public ResponseResult<List<Model>> getModels() {
         List<Model> models = modelService.getModelList();
         Integer code =  models.size() > 0 ? 200 : 500; //返回状态码
         String message = models.size() > 0 ? "success" : "error";//响应消息
@@ -28,7 +28,7 @@ public class ModelController {
     }
 
     @PostMapping("/add")
-    public ResponseResult<Model> createMenu(@RequestBody Model model, BindingResult bindingResult) {
+    public ResponseResult<Model> createModel(@RequestBody Model model, BindingResult bindingResult) {
         try {
             // 1. 参数校验
             if (bindingResult.hasErrors()) {
@@ -72,7 +72,7 @@ public class ModelController {
 
     // 更新菜单API
     @PutMapping("/update")
-    public ResponseResult<Model> updateMenu(@RequestBody Model model, BindingResult bindingResult) {
+    public ResponseResult<Model> updateModel(@RequestBody Model model, BindingResult bindingResult) {
         try {
             // 1. 参数校验
             if (bindingResult.hasErrors()) {

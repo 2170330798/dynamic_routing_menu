@@ -6,4 +6,5 @@ import org.example.entity.Model;
 
 @Mapper
 public interface ModelMapper extends BaseMapper<Model> {
+    void selectByIsApply();
 }

@@ -1,24 +1,24 @@
 <template>       
-    <div class="input-container">
-        <el-input class="search-input" v-model="searchQuery" placeholder="输入菜单名称/路径/标题等搜索" clearable @keyup.enter="handleSearch" />
-        <el-button class="search-btn" type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
-        <el-button class="add-btn" type="primary" :icon="Edit" @click="openDialog">添加菜单</el-button>
+    <div class="menu-input-container">
+        <el-input class="menu-search-input" v-model="searchQuery" placeholder="输入菜单名称/路径/标题等搜索" clearable @keyup.enter="handleSearch" />
+        <el-button class="menu-search-btn" type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
+        <el-button class="menu-add-btn" type="primary" :icon="Edit" @click="openDialog">添加菜单</el-button>
     </div>
 
-    <div class="table-container">
-        <el-table class="table" :data="filteredTraffic" :header-cell-class-name="'table-header-cell'" border>
-            <el-table-column prop="menuId" label="菜单ID" width="80" align="center"/>
-            <el-table-column prop="menuName" label="路由名称" width="200" align="center"/>
-            <el-table-column prop="menuPath" label="路由路径" width="200" align="center"/>
-            <el-table-column prop="menuTitle" label="菜单标题" width="200" align="center"/>
-            <el-table-column prop="menuIcon" label="菜单图标" width="200" align="center"/>
-            <el-table-column prop="parentId" label="父菜单" width="200" align="center">
+    <div class="menu-table-container">
+        <el-table class="menu-table" :data="filteredTraffic" :header-cell-class-name="'menu-table-header-cell'" border>
+            <el-table-column prop="menuId" label="菜单ID" :min-width="80" align="center"/>
+            <el-table-column prop="menuName" label="路由名称" :min-width="200" align="center"/>
+            <el-table-column prop="menuPath" label="路由路径" :min-width="200" align="center"/>
+            <el-table-column prop="menuTitle" label="菜单标题" :min-width="200" align="center"/>
+            <el-table-column prop="menuIcon" label="菜单图标" :min-width="200" align="center"/>
+            <el-table-column prop="parentId" label="父菜单" :min-width="200" align="center">
                 <template #default="{ row }">
                     {{ row.parentId === -1 ? '顶级菜单' : getParentName(row.parentId)}}
                 </template>
             </el-table-column>
-            <el-table-column prop="menuComponent" label="组件路径" width="200" show-overflow-tooltip />
-            <el-table-column prop="isDirectory" label="菜单类型" width="100" align="center" >
+            <el-table-column prop="menuComponent" label="组件路径" :min-width="200" show-overflow-tooltip />
+            <el-table-column prop="isDirectory" label="菜单类型" :min-width="100" align="center" >
                 <template #default="{ row }">
                     <el-tag :type="row.isDirectory ? 'primary' : 'success'">
                                 {{ row.isDirectory ? '目录' : '菜单' }}
@@ -28,16 +28,16 @@
             <!-- 新增操作列 -->
             <el-table-column label="操作" width="150" align="center" fixed="right">
                 <template #default="{ row }">
-                    <el-button class="edit-btn" type="primary" size="small" :icon="Edit" @click="handleEditMenu(row)">
+                    <el-button class="menu-edit-btn" type="primary" size="small" :icon="Edit" @click="handleEditMenu(row)">
                     </el-button>
-                    <el-button class="delete-btn" type="danger" size="small" :icon="Delete" @click="handleDeleteMenu(row)">
+                    <el-button class="menu-delete-btn" type="danger" size="small" :icon="Delete" @click="handleDeleteMenu(row)">
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
     </div>
     
-    <el-dialog class="dialog" v-model="dialogVisible" draggable>
+    <el-dialog class="menu-dialog" v-model="dialogVisible" draggable>
         <FormView ref="menuFormRef" @submit="handleSubmit" @close="handleClose"/>
     </el-dialog>
 </template>
@@ -157,60 +157,77 @@ const handleEditMenu = (row: ICurrentMenuItem) => {
 </script>
 
 <style>
-.search-input{
-   width: 300px;
-   margin-right: 20px;
-   margin-left: 1%;
+.menu-search-input{
+   width: 350px;
+   margin-right: 10px;
+   margin-left: 0%;
 }
 
-.search-btn{
+.menu-search-btn{
     width: 100px;
-    margin-right: 45%;
+    margin-right: 60%;
 }
 
-.table {
-    width: 1180px;
+.menu-table {
+    width: 100%;
     height: 100%;
     text-align: center;
     color: #000;
 }
 
-
-.table-header-cell{
-    font-weight: bold;
-    font-size: 14px;
-    color: #333;
-    background-color: #f5f7fa !important;
-}
-
-.input-container{
+.menu-input-container{
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
-    /* background-color: rgb(227, 237, 237); */
+    background-color: rgb(232, 239, 239);
 }
 
-.table-container{
-     width: 100%;
-     height: 410px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     background-color: azure;
+.menu-table-container {
+  width: 100%;
+  height: 75vh;
+  overflow-x: auto; /* 关键：添加水平滚动 */
+  background-color: rgb(246, 249, 249);
+  margin-top: 1%;
 }
-.add-btn{
+
+/* 覆盖 Element UI 表格样式 */
+.menu-table.el-table {
+  width: 100%;
+  min-width: 100%; /* 确保表格最小宽度与容器一致 */
+}
+
+.menu-table.el-table .el-table__header-wrapper,
+.menu-table.el-table .el-table__body-wrapper {
+  width: 100% !important;
+}
+
+/* 表头样式 */
+.menu-table-header-cell {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  background-color: #f5f7fa !important;
+}
+
+/* 单元格内容自动换行 */
+.menu-table.el-table .cell {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.menu-add-btn{
      margin-right: 0%;
 }
 
-.dialog{
+.menu-dialog{
     text-align: center;
     width: 650px;
     height: 420px;
     /* background-color: rgb(165, 154, 154); */
 }
 
-.delete-btn{
+.menu-delete-btn{
     background-color: rgb(255, 0, 8);
 }
 </style>

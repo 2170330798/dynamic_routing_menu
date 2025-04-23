@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <h1>动态路由</h1>
+      <HeaderView />
     </el-header>
     <el-container>
       <el-aside class="aside-container">
@@ -43,6 +43,7 @@ const treeProps = ref({
 });
 
 import { watch } from 'vue';
+import HeaderView from './HeaderView.vue';
 
 // 使用计算属性获取菜单数据
 const menus = computed(() => store.getMenuTree);
@@ -91,6 +92,7 @@ const handleSelect = (menu: any) => {
 .el-aside {
   width: 145px;
   height: 100%;
+  margin-left: 20px;
   background-color: #f5f5f5;
 }
 

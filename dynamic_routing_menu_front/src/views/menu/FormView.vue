@@ -1,9 +1,9 @@
 <template>
-    <div class="form-container">
-        <div class="header-container">
+    
+        <div class="menu-header-container">
              <h1 class="text-container">菜单管理</h1>
         </div>
-        <el-form  ref="formRef" @validate="onFormValidate" class="el-form" :rules="rules" :model="menu" label-width="auto">
+        <el-form  ref="formRef" @validate="onFormValidate" class="menu-el-form" :rules="rules" :model="menu" label-width="auto">
         <el-row>
             <el-col :span="12">
                 <el-form-item label="菜单名字" prop="menuName">
@@ -64,7 +64,6 @@
                 <el-button class="cancel-btn" @click="onClose">取消</el-button>
             </el-form-item>
         </el-form>
-    </div>
 
 </template>
 
@@ -123,7 +122,6 @@ const rules: FormRules = {
             validationStates.menuName = false;
             callback(new Error('请输入菜单标题'));
           } else {
-            //ValidForm.validTitle = true;
             validationStates.menuName = true;
             callback();
           }
@@ -137,7 +135,6 @@ const rules: FormRules = {
             validationStates.menuName = false;
             callback(new Error('请输入菜单路由路径'));
           } else {
-            //ValidForm.validPath = true;
             validationStates.menuName = true;
             callback();
           }
@@ -151,7 +148,6 @@ const rules: FormRules = {
           validationStates.menuName = false;
           callback(new Error('请输入子菜单组件路径'));
         } else {
-          //ValidForm.validComponent = true;
           validationStates.menuName = true;
           callback();
         }
@@ -173,7 +169,6 @@ const rules: FormRules = {
           validationStates.menuName = false;
           callback(new Error('菜单ID已存在'));
         } else {
-          //ValidForm.validId = true;
           validationStates.menuName = true;
           callback();
         }
@@ -189,7 +184,6 @@ const rules: FormRules = {
           } else if (!menu.isDirectory && !value) {
             callback(new Error('请选择父菜单'));
           } else {
-            //ValidForm.validParentId = true;
             callback();
           }
         },
@@ -197,23 +191,6 @@ const rules: FormRules = {
       }
   ]
 };
-
-// 初始化表单方法
-// function initForm (rowData?: IMenuList) {
-//   if (rowData && store.getIsUpdate) {
-//     // 编辑模式，复制当前行数据
-//     Object.assign(menu, {...rowData});
-//   } else {
-//     // 添加模式，重置表单
-//     Object.assign(menu, {...tempMenuList});
-//   }
-  
-//   // 重置表单验证状态
-//   nextTick(() => {
-//     formRef.value?.clearValidate();
-//     updateSubmitButtonState();
-//   });
-// }
 
 
 //初始验证：在组件挂载时执行一次验证
@@ -267,7 +244,7 @@ const onClose = () => {
 </script>
 
 <style lang="css">
-.form-container {
+.menu-form-container {
     width: 600px;
     height: 350px;
     /* background-color: rgb(184, 191, 191); */
@@ -277,7 +254,7 @@ const onClose = () => {
     align-items: center; /* 水平居中 */
 }
 
-.header-container {
+.menu-header-container {
     width: 100%;
     height: 50px;
     /* background-color: bisque; */
@@ -287,7 +264,7 @@ const onClose = () => {
     /* border-bottom: 1px solid rgb(175, 176, 239); */
 }
 
-.el-form{
+.menu-el-form{
    margin-top: 5%;
    max-width: 600px;
 }

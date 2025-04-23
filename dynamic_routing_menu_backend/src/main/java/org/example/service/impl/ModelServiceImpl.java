@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements ModelService {
@@ -52,7 +57,14 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
             return false;
         }
 
-        // 2. 删除菜单（返回影响的行数 > 0 表示成功）
+        try {
+            Path path = Paths.get(model.getModelPath());
+            boolean deleted = Files.deleteIfExists(path); // Java 7+
+            System.out.println(deleted ? "模型已删除" : "模型不存在");
+        } catch (IOException e) {
+            System.out.println("模型删除失败: " + e.getMessage());
+        }
+
         return modelMapper.deleteById(modeId) > 0;
     }
 
@@ -78,8 +90,24 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
             throw new IllegalArgumentException("模型名字不能为空");
         }
 
+        if (checkModelsIsApply(model)) {
+            throw new IllegalArgumentException("有模型已经被使用");
+        }
+
         // 4. 保存到数据库
         return this.updateById(model);
+    }
+
+    public boolean checkModelsIsApply(Model model) {
+        // 5.保证当前仅有一个模型被使用
+        List<Model> models = modelMapper.selectList(null);
+        for (Model item : models) {
+            if (item.getIsApply() && !Objects.equals(model.getModelId(), item.getModelId())) {
+                return  true;
+            }
+        }
+        return false;
+
     }
 
 }

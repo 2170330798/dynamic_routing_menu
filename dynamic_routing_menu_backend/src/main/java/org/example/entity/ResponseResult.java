@@ -1,5 +1,10 @@
 package org.example.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ResponseResult<T> {
       private Integer code;
 
@@ -14,24 +19,12 @@ public class ResponseResult<T> {
             this.data = data;
       }
 
-      public Integer getCode() {
-            return code;
-      }
-
       public void setCode(Integer code) {
             this.code = code;
       }
 
-      public String getMessage() {
-            return message;
-      }
-
       public void setMessage(String message) {
             this.message = message;
-      }
-
-      public T getData() {
-            return data;
       }
 
       public void setData(T data) {

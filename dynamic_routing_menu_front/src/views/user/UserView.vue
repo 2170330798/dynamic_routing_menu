@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import UserListView from './UserListView.vue';
+
+</script>
+
 <template>
-    <h1>用户管理</h1>
+    <UserListView />
 </template>

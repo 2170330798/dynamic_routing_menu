@@ -1,10 +1,10 @@
 <template>
-<div class="table-container">
-        <el-table class="table" :data="filteredTraffic" :header-cell-class-name="'table-header-cell'" border>
-            <el-table-column prop="frameId" label="框架ID" width="80" align="center"/>
-            <el-table-column prop="frameName" label="框架名字" width="200" align="center"/>
-            <el-table-column prop="frameDescribe" label="框架描述" width="200" align="center"/>
-            <el-table-column prop="frameCharacter" label="框架特性" width="200" align="center"/>
+    <div class="frame-table-container">
+        <el-table class="frame-table" :data="filteredTraffic" :header-cell-class-name="'table-header-cell'" border>
+            <el-table-column prop="frameId" label="框架ID" width="100" align="center"/>
+            <el-table-column prop="frameName" label="框架名字" width="250" align="center"/>
+            <el-table-column prop="frameDescribe" label="框架描述" width="250" align="center"/>
+            <el-table-column prop="frameCharacter" label="框架特性" width="490" align="center"/>
             <!-- 操作列 -->
             <el-table-column label="操作" width="150" align="center" fixed="right">
                 <template #default="{ row }">
@@ -14,15 +14,19 @@
             </el-table-column>
         </el-table>
     </div>
+    <div class="frame-search-btn-container">
+        <el-input class="frame-search-input" v-model="searchQuery" placeholder="输入框架名称/ID搜索" clearable @keyup.enter="handleSearch" />
+        <el-button class="frame-search-btn" type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { Delete } from '@element-plus/icons-vue';
+import { Delete, Search } from '@element-plus/icons-vue';
 import { onMounted, ref, computed } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { deleteFrame, getFrameData } from '../../api/frame';
 import { useFrameStore } from '../../store/frame/frame';
-import type { IFrame } from '../../components/frame/frame';
+import { type IFrame } from '../../components/frame/frame';
 
 const store = useFrameStore();
 const searchQuery = ref('');
@@ -31,9 +35,12 @@ const frameList = ref<IFrame[]>([]);
 //加载表格数据
 const loadData = () => {
     frameList.value = store.getIFrame;
-    console.log('menu:', frameList.value);
+    console.log('store:', frameList.value);
 }
 
+const handleSearch = () => {
+    // computed属性会自动更新，无需额外操作
+};
 
 // 使用computed实现实时搜索
 const filteredTraffic = computed(() => {
@@ -53,33 +60,6 @@ onMounted(async () => {
     await getFrameData();
     loadData();
 });
-
-// const handleEdit = async (row: IFrame) => {
-//   try {
-//     await ElMessageBox.confirm(
-//       `确定要删除"${row.frameName}" 吗？`,
-//       "提示",
-//       {
-//         confirmButtonText: "确定",
-//         cancelButtonText: "取消",
-//         type: "warning",
-//       }
-//     );
-//     const frame = {...row};
-//     // 更新数据
-//     await updateFrame(frame);
-
-//     // 重新加载数据
-//     await getFrameData();
-//     loadData();
-
-//     ElMessage.success(`已更新 ${row.frameName}`);
-//   } catch (error) {
-//     // 用户取消操作，恢复开关状态
-//     ElMessage.info("已取消操作");
-//   }
-// };
-
 
 // 删除模型
 const handleDeleteFrame = async(row: any) => {
@@ -104,48 +84,11 @@ const handleDeleteFrame = async(row: any) => {
 </script>
 
 <style>
-.search-input{
-   width: 300px;
-   margin-right: 20px;
-   margin-left: 1%;
-}
-
-.search-btn{
-    width: 100px;
-    margin-right: 45%;
-}
-
-.table {
-    width: 1180px;
-    height: 300px;
-    margin-bottom: 15%;
-    text-align: center;
-    color: #000;
-}
-
-
 .table-header-cell{
     font-weight: bold;
     font-size: 14px;
     color: #333;
     background-color: #f5f7fa !important;
-}
-
-.input-container{
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    /* background-color: rgb(227, 237, 237); */
-}
-
-.table-container{
-     width: 100%;
-     height: 410px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     background-color: azure;
 }
 
 .dialog{
@@ -159,10 +102,54 @@ const handleDeleteFrame = async(row: any) => {
     background-color: rgb(255, 0, 8);
 }
 
-.switch-btn{
-    width: 32px;
-     --el-switch-on-color: #409EFF;
-     --el-switch-off-color: #909399;
-     margin-right: 15px;
+
+.table {
+  width: 100%;
+  text-align: center;
+  color: #000;
+  background-color: rgb(240, 242, 244);
 }
+
+.table-header-cell {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  background-color: #f5f7fa !important;
+}
+
+.frame-table-container {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  background-color: azure;
+}
+
+.table-wrapper {
+  width: 100%;
+  max-width: 1000px; /* 根据你的实际表格宽度调整 */
+  display: flex;
+  flex-direction: column;
+}
+
+.frame-search-btn-container {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  background-color: #fafafa;
+  margin-top: 15%; /* 调整这个值来控制与表格的间距 */
+}
+
+.frame-search-input{
+   width: 300px;
+   margin-right: 20px;
+}
+
+.frame-search-btn{
+    width: 100px;
+    margin-right: 0%;
+}
+
 </style>

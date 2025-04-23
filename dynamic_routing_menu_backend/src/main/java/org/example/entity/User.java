@@ -1,5 +1,8 @@
 package org.example.entity;
 
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +12,27 @@ import lombok.Setter;
 @TableName(value = "user")
 public class User {
 
-  private long userId;
-  private String username;
+  @TableId(type = IdType.NONE)
+  private String userId;
+  private String userName;
   private String password;
   private String phone;
-  private long userRole;
-  private java.sql.Timestamp createTime;
-  private java.sql.Timestamp updateTime;
+  private boolean role;
+  private String createTime;
+  private String updateTime;
+  private String avatar;
 
+  @Override
+  public String toString() {
+    return "User{" +
+            "userId='" + userId + '\'' +
+            ", userName='" + userName + '\'' +
+            ", password='" + password + '\'' +
+            ", phone='" + phone + '\'' +
+            ", role=" + role +
+            ", createTime='" + createTime + '\'' +
+            ", updateTime='" + updateTime + '\'' +
+            ", avatar='" + avatar + '\'' +
+            '}';
+  }
 }

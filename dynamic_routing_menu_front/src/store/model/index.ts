@@ -5,7 +5,7 @@ import type { IMODEL } from "../../components/model/model";
 export const useModelStore = defineStore('model', {
   state: () => ({
       ModelList: [] as IMODEL[],
-      isUpdate: Boolean,
+      isUpdate: false,
 
   }),
   //getter 仅依赖 state

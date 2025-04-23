@@ -1,15 +1,36 @@
 <template>
-    <div class="title-container">
+    <!-- <div class="title-container">
         <h1 class="title-h1">Not Found!</h1>
         <h2 class="title-h2">404</h2>
-    </div>
-   
+    </div> -->
+    
+    <el-result title="404" sub-title="Sorry, request error">
+        <template #icon>
+        <el-image
+            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        />
+        </template>
+        <template #extra>
+        <el-button type="primary" @click="back">返回</el-button>
+        </template>
+    </el-result>
 </template>
+
+<script lang="ts" setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const back = () => {
+    router.push('/')
+}
+
+
+</script>
 
 
 <style lang="css" scoped>
     
-    .title-container{
+    /* .title-container{
         width: 100%;
         height: 100vh;
         display: flex;
@@ -25,5 +46,5 @@
         font-size: large;
         display: flex;
 
-    }
+    } */
 </style>

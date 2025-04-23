@@ -56,3 +56,17 @@ export const tempMenuList: IMenuList = {
       parentId: -1,
       menuComponent: ""
 };
+
+
+export const initTempMenuList = (list: IMenuList):IMenuList => {
+        
+        list.menuId = 0;
+        list.menuName = "";
+        list.menuIcon = "";
+        list.menuPath = "";
+        list.menuTitle = "";
+        list.parentId = -1;
+        list.menuComponent = "";
+        
+        return list;
+}
