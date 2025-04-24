@@ -34,7 +34,7 @@ export const UPDATE_TRAFFIC_REQUEST_API = 'http://localhost:8080/traffic/update'
 
 //训练模型
 export const TRAIN_MODEL_REQUEST_API = 'http://localhost:8080/train/start';
-
+export const WS_HOST = '127.0.0.1:8000'
 
 
 //登入验证

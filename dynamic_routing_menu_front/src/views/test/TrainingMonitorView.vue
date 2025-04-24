@@ -26,8 +26,19 @@
         </div>
         
         <div v-else class="empty-state">
-            <span>训练数据：</span>
-            {{ train_data }}
+            <div class="train_data">
+                <span>训练数据：</span>
+                {{ train_data }}
+            </div>
+            <el-tag :type="connectionTagType">
+                WebSocket: {{ connectionStatus }}
+                </el-tag>
+                <el-button 
+                v-if="connectionStatus === 'disconnected'" 
+                @click="reconnect"
+                >
+                重新连接
+            </el-button>
             <el-empty description="请先开始训练任务">
             <el-button type="primary" @click="startTraining">
                 开始新训练
@@ -46,7 +57,7 @@
         </template>
         
         <!-- 指标展示部分 -->
-        <div v-if="currentMetrics" class="metrics-section">
+        <!-- <div v-if="currentMetrics" class="metrics-section">
           <el-descriptions :column="2" border>
             <el-descriptions-item label="Epoch">
               {{ currentMetrics.epoch }}/{{ currentMetrics.total_epochs }}
@@ -65,48 +76,43 @@
               </el-tag>
             </el-descriptions-item>
           </el-descriptions>
-        </div>
+        </div> -->
         
         <!-- 控制台输出部分 -->
         <el-divider />
         <div class="console-output">
-          <pre>{{ consoleOutput }}</pre>
+            <h1>Message:</h1>
+                {{ consoleOutput }}
         </div>
       </el-card>
     </div>
 </template>
   
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useTrainingWebSocket } from '../../components/websocket/websocket'
 import { trainModel } from '../../api/train'
 import { ElMessage } from 'element-plus'
-import { disconnectWebSocket } from '../../components/progress/progress';
-const train_data = {
-            csvSourcePath: "F:\\PythonWeb\\myDjango\\app\\dataset\\train_dataset_03.csv",//训练数据集csv文件路径
-            csvDestPath: "",//保存打乱数据集csv文件路径
-            labelColumn: "Laabel",//Label标签列
-            batchSize: 32,//训练数据批次大小
-            rows: 3000,//读取csv多少行
-            numEpochs: 2,//训练次数
-            lr: 0.01,//学习率
-            stepSize: 32,//动态更新学习率的步长
-            gamma: 0.1,//学习率衰减比率
-            modelId: 1,//模型ID
-            modelName: "model_test",//模型名字
-            modelVersion: "v1.0.0",//模型版本
-            frameId: 1,//框架ID
-            modelSavePath: "F:\\PythonWeb\\myDjango\\app\\model",//模型保存路径
-            isSaveCsvPath: false, //是否保存打乱的数据集
-            taskId: "task_123" //任务进程ID
-}
+import { train_data } from '../../components/train/train';
+
 const taskId = "task_"+Date.now();
 
-const { messages, connectionStatus, connect } = useTrainingWebSocket(taskId);
+const { messages, connectionStatus, connect, disconnect } = useTrainingWebSocket(taskId);
   
 // 连接WebSocket
 connect()
-  
+
+// 调试：监听 messages 变化
+watch(messages, (newVal) => {
+  console.log('messages updated:', newVal)
+}, { deep: true })
+
+// 添加重连方法
+const reconnect = () => {
+  disconnect();
+  connect();
+};
+
 // 在组件中添加这个工具函数
 const findLast = <T>(arr: T[], predicate: (item: T) => boolean): T | undefined => {
   for (let i = arr.length - 1; i >= 0; i--) {
@@ -122,15 +128,21 @@ const currentMetrics = computed(() => {
   return findLast(messages.value, msg => msg.status === 'epoch_summary')
 })
 
+// 修改onUnmounted
+onUnmounted(() => { 
+    disconnect() 
+})
+
 const consoleOutput = computed(() => {
-    return messages.value
-      .map(msg => {
-        if (msg.status === 'epoch_summary') {
-          return `[Epoch ${msg.epoch}/${msg.total_epochs}] Loss: ${msg.loss?.toFixed(4)}, Acc: ${msg.accuracy ? (msg.accuracy * 100).toFixed(2) + '%' : 'N/A'}`
-        }
-        return msg.message
-      })
-      .join('\n')
+  return messages.value
+    .map(msg => {
+      if (msg.status === 'error') return `[ERROR] ${msg.message}`
+      if (msg.status === 'epoch_summary') {
+        return `[Epoch ${msg.epoch}/${msg.total_epochs}] Loss: ${msg.loss?.toFixed(4)}, Acc: ${msg.accuracy ? (msg.accuracy * 100).toFixed(2) + '%' : 'N/A'}`
+      }
+      return msg.message
+    })
+    .join('\n')
 })
   
 const connectionTagType = computed(() => {
@@ -169,13 +181,6 @@ const startTraining = async () => {
       isTraining.value = false;
     }
 }
-  
-
-
-// 在 setup 脚本中添加：
-onUnmounted(() => {
-    disconnectWebSocket()
-})
 </script>
   
 <style scoped>
@@ -210,12 +215,21 @@ onUnmounted(() => {
 }
   
 .console-output {
-    background-color: #f5f5f5;
+    width: 100%;
+    height: 500px;
+
+
+    background-color: #d1dfdd;
     padding: 10px;
     border-radius: 4px;
     font-family: monospace;
     white-space: pre-wrap;
-    max-height: 300px;
     overflow-y: auto;
+}
+
+.train_data{
+    width: 150px;
+    height: 600px;
+    background-color: rgba(239, 246, 247, 0.36);
 }
 </style>
