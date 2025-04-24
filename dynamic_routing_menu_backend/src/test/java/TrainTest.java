@@ -16,7 +16,7 @@ public class TrainTest {
 
     @Test
     public void testTrainModel() throws IOException {
-        String csvSourcePath = "D:/VueProject/PythonWeb/myDjango/app/dataset/train_dataset_06.csv";
+        String csvSourcePath = "F:\\PythonWeb\\myDjango\\app\\dataset\\train_dataset_03.csv";
         String csvDestPath = "";
         String labelColumn = "Label";
         String modelVersion = "v1.0.0";
@@ -27,10 +27,12 @@ public class TrainTest {
         Long stepSize = 32L;
         double gamma = 0.1;
         Long modeId = 1L;
-        String modelName = "model-02.pkl";
+        String modelName = "model-test";
         Long frameId = 1L;
-        String modelSavePath = "D:/VueProject/PythonWeb/myDjango/app/models";
+        String modelSavePath = "F:\\PythonWeb\\myDjango\\app\\model";
         String taskId = "task_123";
+        String modelPath = "F:\\PythonWeb\\myDjango\\app\\model\\model_03.pkl";
+        boolean trainModelWays = false;
 
         Train train = new Train();
         train.setCsvSourcePath(csvSourcePath);
@@ -41,6 +43,8 @@ public class TrainTest {
         train.setRows(rows);
         train.setNumEpochs(numEpochs);
         train.setLr(lr);
+        train.setModelPath(modelPath);
+        train.setTrainModelWays(trainModelWays);
         train.setStepSize(stepSize);
         train.setGamma(gamma);
         train.setModelId(modeId);

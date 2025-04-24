@@ -1,17 +1,14 @@
 <template>
     <div class="home-header">
         <div class="avatar-container">
-          <el-avatar :size="45" :src="circleUrl" @click="centerDialogVisible = true" />
+          <el-avatar :size="45" :src="circleUrl" @click="centerDialogVisible = true" >
+          </el-avatar>
         </div>
         <el-button class="exit-btn" type="primary" @click="logout">退出</el-button>
         
         <el-dialog class="avatar-dialog" v-model="centerDialogVisible" :showClose="false" destroy-on-close :modal="false" :append-to-body="false">              
         </el-dialog> 
-        <el-popover class="box-item" title="Title" content="Top Left prompts info" placement="top-start">
-          <template #reference>
-            <el-button>top-start</el-button>
-          </template>
-        </el-popover>
+        
     </div>
 </template>
 

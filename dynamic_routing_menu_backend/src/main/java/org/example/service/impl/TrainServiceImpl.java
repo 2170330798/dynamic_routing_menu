@@ -2,19 +2,21 @@ package org.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import okhttp3.*;
 import org.example.entity.Train;
 import org.example.mapper.FrameMapper;
 import org.example.mapper.ModelMapper;
 import org.example.mapper.TrainMapper;
 import org.example.service.TrainService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -26,13 +28,14 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
     private FrameMapper frameMapper;
     @Override
     public boolean trainModel(Train train) throws IOException {
-        //检查参数是否合规
+        // 检查参数是否合规
         checkParams(train);
+
         // 全局单例配置（推荐）
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)  // 连接超时
+                .connectTimeout(30, TimeUnit.SECONDS) // 连接超时
                 .readTimeout(0, TimeUnit.MILLISECONDS) // 读取不限制‌
-                .writeTimeout(60, TimeUnit.SECONDS)    // 写入超时
+                .writeTimeout(60, TimeUnit.SECONDS) // 写入超时
                 .build();
 
         // 构造 JSON
@@ -43,6 +46,7 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
         data.put("labelColumn", train.getLabelColumn());
         data.put("batchSize", train.getBatchSize());
         data.put("rows", train.getRows());
+        data.put("modelPath", train.getModelPath());
         data.put("numEpochs", train.getNumEpochs());
         data.put("lr", train.getLr());
         data.put("stepSize", train.getStepSize());
@@ -53,18 +57,24 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
         data.put("frameName", frameMapper.selectById(train.getFrameId()).getFrameName());
         data.put("modelSavePath", train.getModelSavePath());
         data.put("isSaveCsvPath", train.isSaveCsvPath());
+
         // 转换为 JSON
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(data);
         System.out.println(json);
-        //构造请求体
-        RequestBody body = RequestBody.create(String.valueOf(json), MediaType.get("application/json"));
-        //向Python提供的API发送请求
+
+        // 构造请求体
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json"));
+
+        // 向 Python 提供的 API 发送请求
         Request request = new Request.Builder()
-                .url("http://127.0.0.1:8000/train_model/")
+                .url("http://127.0.0.1:8000/training_model/")
                 .header("Host", "127.0.0.1")
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
                 .post(body)
                 .build();
+
         try (Response response = client.newCall(request).execute()) {
             assert response.body() != null;
             System.out.println(response.body().string());

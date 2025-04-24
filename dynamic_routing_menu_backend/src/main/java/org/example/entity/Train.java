@@ -25,8 +25,9 @@ public class Train {
     private Long modelId;
     private String modelName;//模型名字
     private Long frameId;//框架ID
+    private String modelPath;//模型路径
+    private boolean trainModelWays;//0：继续训练 1：训练新的模型
     private String modelSavePath;//模型保存路径
-
     private boolean isSaveCsvPath; //是否保存打乱的数据集
 
     public void setCsvSourcePath(String csvSourcePath) {

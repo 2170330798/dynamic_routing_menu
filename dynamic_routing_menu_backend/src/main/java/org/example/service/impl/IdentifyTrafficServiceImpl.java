@@ -57,7 +57,7 @@ public class IdentifyTrafficServiceImpl extends ServiceImpl<IdentifyTrafficMappe
         data.put("labelColumn", "Label");
         data.put("batchSize", 32);
         data.put("startIndex", 0);
-        data.put("endIndex", 3000);
+        data.put("endIndex", 1000);
         data.put("modelPath", modelPath);
 
         // 转换为 JSON

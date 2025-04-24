@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS system_menu_table(
-    menu_id int,
-   
-   
-		
-
-)DEFAULT CHARSET=utf8;
-

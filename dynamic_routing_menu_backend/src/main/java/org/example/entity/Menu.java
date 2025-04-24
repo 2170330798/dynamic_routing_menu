@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@TableName(value = "system_menu_table")
+@TableName(value = "menu")
 public class Menu implements Serializable {
 
    @TableId(type = IdType.INPUT)
