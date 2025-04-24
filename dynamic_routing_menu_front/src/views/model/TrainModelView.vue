@@ -14,9 +14,6 @@
     <el-dialog class="train-params-dialog" v-model="dialogVisible1" title="设置训练参数" width="500" draggable>
         <FormView @close-dialog="closeDialog1"/>
     </el-dialog>
-    <el-dialog class="start-train-dialog" v-model="dialogVisible2" title="设置训练参数" width="500" draggable>
-        <TrainingProgressView :task-id="currentTaskId" :should-connect="shouldConnectWs"/>
-    </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -26,7 +23,6 @@ import FrameList  from './FrameList.vue';
 import FormView from './FormView.vue';
 import { useTrainStore } from '../../store/train';
 import { trainModel } from '../../api/train';
-import TrainingProgressView from './TrainingProgressView.vue';
 import { ElMessage } from 'element-plus';
 
 const dialogVisible1 = ref(false);
