@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface IdentifyTrafficService extends IService<IdentifyTraffic> {
@@ -16,4 +17,6 @@ public interface IdentifyTrafficService extends IService<IdentifyTraffic> {
     void identifyTraffic() throws IOException;
 
     PageResult<IdentifyTraffic> findTrafficLogByPage(long pageNum, long pageSize);
+
+    Map<Integer, Long> countLabelsByDatabase();
 }

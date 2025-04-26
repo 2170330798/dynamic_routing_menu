@@ -13,28 +13,6 @@ export interface IMenuList {
   isDirectory?: boolean;
 }
 
-// export interface IMenuValidList {
-
-//   validId: boolean;
-//   validName: boolean;
-//   validPath: boolean;
-//   validIcon: boolean;
-//   validTitle: boolean;
-//   validParentId: boolean;
-//   validComponent : boolean;
-//   validDirectory?: boolean;
-// }
-
-// export const ValidForm: IMenuValidList = {
-//   validId: false,
-//   validName: false,
-//   validPath: false,
-//   validTitle: false,
-//   validParentId: false,
-//   validComponent: false
-// };
-
-
 // 定义菜单（树）项接口
 export interface IMenuItem extends IMenuList {
   

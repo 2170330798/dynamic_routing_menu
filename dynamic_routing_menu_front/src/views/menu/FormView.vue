@@ -60,7 +60,9 @@
             </el-col>
         </el-row>
             <el-form-item class="btn-group1">
-                <el-button class="add-btn" type="primary" @click="onSubmit" :disabled="isSubmitDisabled">添加</el-button>
+                <el-button class="add-btn" type="primary" @click="onSubmit" :disabled="isSubmitDisabled">
+                    {{ store.getIsUpdate ? '更新' : '添加' }}
+                </el-button>
                 <el-button class="cancel-btn" @click="onClose">取消</el-button>
             </el-form-item>
         </el-form>
@@ -69,13 +71,18 @@
 
 <script lang="ts" setup>
 import { reactive, ref, watch } from 'vue';
-import { tempMenuList, type IMenuList } from '../../components/menu/menu';
+import { type IMenuList } from '../../components/menu/menu';
 import { useMenuStore } from '../../store/menu';
 import pinia from '../../store';
 import type { FormRules } from 'element-plus';
 
-const menu = reactive<IMenuList>(tempMenuList);
 const store = useMenuStore(pinia);
+
+const props = defineProps<{
+    currentMenu: IMenuList
+}>();
+
+const menu = reactive<IMenuList>({...props.currentMenu});
 
 //存储当前ID
 const tmpId:number[] = [];
@@ -240,6 +247,12 @@ const onSubmit = async () => {
 const onClose = () => {
   emit('close');
 };
+
+// 监听currentMenu变化，当编辑不同行时更新表单数据
+watch(() => props.currentMenu, (newVal) => {
+    Object.assign(menu, newVal);
+}, { deep: true })
+
 
 </script>
 

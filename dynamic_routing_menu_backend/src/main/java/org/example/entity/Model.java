@@ -14,10 +14,10 @@ import java.util.Date;
 public class Model {
 
   @TableId(type = IdType.INPUT)
-  private Long modelId;
+  private Integer modelId;
   private String modelVersion;
   private String modelName;
-  private String frameName;
+  private Integer frameId;
   private double loss;
   private double accuracy;
   private Date createDate;

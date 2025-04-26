@@ -61,7 +61,6 @@ const user = reactive<User>({...props.currentUser});
 
 const formRef = ref(); // 添加表单引用
 const isSubmitDisabled = ref(true); // 初始禁用状态
-const value = ref(1)
 const options = [
   {
     value: 1,

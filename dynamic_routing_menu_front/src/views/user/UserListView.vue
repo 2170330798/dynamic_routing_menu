@@ -21,7 +21,7 @@
             <!-- 操作列 -->
             <el-table-column label="操作" width="150" align="center" fixed="right">
                 <template #default="{ row }">
-                    <el-button class="user-edit-btn" type="primary" size="small" :icon="Edit" @click="handleEditMenu(row)" ></el-button>
+                    <el-button class="user-edit-btn" type="primary" size="small" :icon="Edit" @click="handleEditUser(row)" ></el-button>
                     <el-button class="user-delete-btn" type="danger" size="small" :icon="Delete" @click="handleDeleteUser(row)" >
                     </el-button>
                 </template>
@@ -135,7 +135,7 @@ const handleSubmit = async (formData: User) => {
 
 
 // 编辑菜单方法
-const handleEditMenu = (row: User) => {
+const handleEditUser = (row: User) => {
     store.setIsUpdate(true);
     dialogVisible.value = true;
     currentUser.value = {

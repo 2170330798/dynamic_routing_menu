@@ -50,7 +50,7 @@ onMounted(()=>{
     height: 50px;
     display: flex;
     align-items: center;
-    background-color: aliceblue;
+    background-color: rgb(254, 254, 255);
     position: relative; /* 添加相对定位 */
 }
 

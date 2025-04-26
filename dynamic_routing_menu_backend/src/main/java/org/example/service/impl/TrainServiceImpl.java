@@ -54,7 +54,7 @@ public class TrainServiceImpl extends ServiceImpl<TrainMapper, Train> implements
         data.put("modelId", train.getModelId());
         data.put("modelVersion", train.getModelVersion());
         data.put("modelName", train.getModelName());
-        data.put("frameName", frameMapper.selectById(train.getFrameId()).getFrameName());
+        data.put("frameId", train.getFrameId());
         data.put("modelSavePath", train.getModelSavePath());
         data.put("isSaveCsvPath", train.isSaveCsvPath());
 

@@ -8,7 +8,11 @@
         <el-table class="model-table" :data="filteredTraffic" :header-cell-class-name="'table-header-cell'" border>
             <el-table-column prop="modelId" label="模型ID" width="80" align="center"/>
             <el-table-column prop="modelName" label="模型名字" width="200" align="center"/>
-            <el-table-column prop="frameId" label="模型框架" width="200" align="center"/>
+            <el-table-column prop="frameId" label="模型框架" width="200" align="center">
+                <template #default="{row}">
+                      {{ getframeName(row.frameId) }}
+                </template>
+            </el-table-column>
             <el-table-column prop="modelVersion" label="模型版本" width="200" align="center"/>
             <el-table-column prop="loss" label="模型损失率" width="200" align="center"/>
             <el-table-column prop="accuracy" label="模型精度" width="200" align="center"/>
@@ -47,6 +51,20 @@ import { deleteModel, getModelData, updateModel } from '../../api/model';
 const store = useModelStore();
 const searchQuery = ref('');
 const modelList = ref<IMODEL[]>([]);
+
+const getframeName = (frameId: number) => {
+      switch(Number(frameId)) {
+          case 1: 
+            return 'CNN';
+          case 2:
+            return 'RNN';
+          case 3:
+            return 'DCNN';
+          default:
+            return '未知';
+      }
+} 
+
 
 // 使用computed实现实时搜索
 const filteredTraffic = computed(() => {

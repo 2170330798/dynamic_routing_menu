@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +14,6 @@ import org.example.mapper.IdentifyTrafficMapper;
 import org.example.mapper.ModelMapper;
 import org.example.service.IdentifyTrafficService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -53,11 +54,11 @@ public class IdentifyTrafficServiceImpl extends ServiceImpl<IdentifyTrafficMappe
 
         // 构造 JSON
         Map<String, Object> data = new HashMap<>();
-        data.put("csvSourcePath", "D:/VueProject/PythonWeb/myDjango/app/dataset/train_dataset_06.csv");
+        data.put("csvSourcePath", "F:\\PythonWeb\\myDjango\\app\\dataset\\train_dataset_03.csv");
         data.put("labelColumn", "Label");
         data.put("batchSize", 32);
         data.put("startIndex", 0);
-        data.put("endIndex", 1000);
+        data.put("endIndex", 2000);
         data.put("modelPath", modelPath);
 
         // 转换为 JSON
@@ -92,6 +93,19 @@ public class IdentifyTrafficServiceImpl extends ServiceImpl<IdentifyTrafficMappe
                 page.getTotal(),
                 page.getPages(),
                 page.getRecords());
+    }
+
+    @Override
+    public Map<Integer, Long> countLabelsByDatabase() {
+        QueryWrapper<IdentifyTraffic> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("label, count(*) as count")
+                .groupBy("label");
+
+        return identifyTrafficMapper.selectMaps(queryWrapper).stream()
+                .collect(Collectors.toMap(
+                        map -> (Integer)map.get("label"),
+                        map -> (Long)map.get("count")
+                ));
     }
 }
 

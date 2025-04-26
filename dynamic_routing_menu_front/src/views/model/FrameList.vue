@@ -3,8 +3,8 @@
         <el-table class="frame-table" :data="filteredTraffic" :header-cell-class-name="'table-header-cell'" border>
             <el-table-column prop="frameId" label="框架ID" width="100" align="center"/>
             <el-table-column prop="frameName" label="框架名字" width="250" align="center"/>
-            <el-table-column prop="frameDescribe" label="框架描述" width="250" align="center"/>
-            <el-table-column prop="frameCharacter" label="框架特性" width="490" align="center"/>
+            <el-table-column prop="frameDescribe" label="框架描述" width="300" align="center"/>
+            <el-table-column prop="frameCharacter" label="框架特性" width="500" align="center"/>
             <!-- 操作列 -->
             <el-table-column label="操作" width="150" align="center" fixed="right">
                 <template #default="{ row }">

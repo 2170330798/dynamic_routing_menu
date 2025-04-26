@@ -31,6 +31,7 @@ export const GET_TRAFFIC_BY_PAGE_REQUEST_API = 'http://localhost:8080/traffic/pa
 export const ADD_TRAFFIC_REQUEST_API = 'http://localhost:8080/traffic/add';
 export const DELETE_TRAFFIC_REQUEST_API ='http://localhost:8080/traffic/delete';
 export const UPDATE_TRAFFIC_REQUEST_API = 'http://localhost:8080/traffic/update';
+export const GET_STATISTIC_TRAFFIC_API = 'http://localhost:8080/traffic/statistic';
 
 //训练模型
 export const TRAIN_MODEL_REQUEST_API = 'http://localhost:8080/train/start';

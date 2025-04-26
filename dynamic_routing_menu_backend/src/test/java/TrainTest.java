@@ -27,7 +27,7 @@ public class TrainTest {
         Long stepSize = 32L;
         double gamma = 0.1;
         Long modeId = 1L;
-        String modelName = "model-test";
+        String modelName = "model-01";
         Long frameId = 1L;
         String modelSavePath = "F:\\PythonWeb\\myDjango\\app\\model";
         String taskId = "task_123";

@@ -1,8 +1,7 @@
 import axios from "axios";
 import pinia from "../store";
 import { useTrafficStore } from "../store/traffic";
-import { GET_TRAFFIC_BY_PAGE_REQUEST_API } from "../vite-env.d";
-
+import { GET_STATISTIC_TRAFFIC_API, GET_TRAFFIC_BY_PAGE_REQUEST_API } from "../vite-env.d";
 //
 // export const getTrafficData = async () => {
     
@@ -98,4 +97,18 @@ export const getTrafficDataByPage = async (pageNumber: number, pageSize: number)
       // 可以在这里添加一些清理逻辑或状态更新
       // 例如：store.setLoading(false);
   }
+}
+
+
+// api/traffic.ts
+export const getStatisticsTraffic = async () => {
+  const store = useTrafficStore(pinia);
+  const response = await axios.get(GET_STATISTIC_TRAFFIC_API);
+  if (response.data.code === 200) {
+      // 确保data是对象类型
+      store.setLabelCount(response.data.data);
+      console.log('流量数据:', store.getLabelCount);
+      return 200; // 直接返回数据
+  }else 
+      return response.data.code;
 }

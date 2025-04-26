@@ -53,3 +53,13 @@ Object.entries(labelMappingDict).forEach(([name, num]) => {
 export const mapNumberToLabel = (num: number): string | undefined => {
       return reverseLabelMappingDict[num];
 }
+
+export interface TrafficStats {
+      [label: number]: number;
+    }
+    
+export interface ApiResponse {
+      code: number;
+      message?: string;
+      data?: TrafficStats;
+}

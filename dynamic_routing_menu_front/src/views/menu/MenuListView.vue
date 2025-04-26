@@ -28,7 +28,7 @@
             <!-- 新增操作列 -->
             <el-table-column label="操作" width="150" align="center" fixed="right">
                 <template #default="{ row }">
-                    <el-button class="menu-edit-btn" type="primary" size="small" :icon="Edit" @click="handleEditMenu(row)">
+                    <el-button class="menu-edit-btn" :currentMenu="currentMenu" type="primary" size="small" :icon="Edit" @click="handleEditMenu(row)">
                     </el-button>
                     <el-button class="menu-delete-btn" type="danger" size="small" :icon="Delete" @click="handleDeleteMenu(row)">
                     </el-button>
@@ -38,14 +38,14 @@
     </div>
     
     <el-dialog class="menu-dialog" v-model="dialogVisible" draggable>
-        <FormView ref="menuFormRef" @submit="handleSubmit" @close="handleClose"/>
+        <FormView ref="menuFormRef" :currentMenu="currentMenu" @submit="handleSubmit" @close="handleClose"/>
     </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import { Search, Edit, Delete } from '@element-plus/icons-vue';
-import { onMounted, ref, computed, nextTick } from 'vue';
-import { type ICurrentMenuItem } from '../../components/menu/menu';
+import { onMounted, ref, computed } from 'vue';
+import { tempMenuList, type ICurrentMenuItem, type IMenuList } from '../../components/menu/menu';
 import { useMenuStore } from '../../store/menu';
 import FormView from './FormView.vue';
 import { addMenu, deleteMenu, getMenuData, updateMenu } from '../../api/menu';
@@ -57,10 +57,12 @@ const store = useMenuStore();
 const searchQuery = ref('');
 const menu = ref<ICurrentMenuItem[]>([]);
 const menuFormRef = ref(); // 添加对子组件的引用
+const currentMenu = ref<IMenuList>({...tempMenuList});
 
 // 打开弹窗（添加模式）
 const openDialog = () => {
     store.setIsUpdate(false); // 设置为添加模式
+    currentMenu.value = { ...tempMenuList};
     dialogVisible.value = true;
 };
 
@@ -149,10 +151,11 @@ const handleDeleteMenu = async(row: any) => {
 const handleEditMenu = (row: ICurrentMenuItem) => {
     store.setIsUpdate(true);
     dialogVisible.value = true;
-    nextTick(() => {
-        // 编辑模式下传入当前行数据
-        menuFormRef.value.initForm(row);
-    });
+    console.log('row:',{row});
+    currentMenu.value = {
+        ...row
+    }; // 复制当前行数据
+    
 };
 </script>
 
