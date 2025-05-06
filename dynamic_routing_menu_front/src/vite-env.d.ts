@@ -6,6 +6,9 @@ declare module '*.vue' {
     const component: DefineComponent<{}, {}, any>;
     export default component;
 }
+//请求系统监控API
+export const GET_SYSTEM_INFO = 'http://localhost:8080/system/info'
+
 
 //动态菜单数据请求路径
 export const GET_MENU_REQUEST_API = 'http://localhost:8080/menu/get'

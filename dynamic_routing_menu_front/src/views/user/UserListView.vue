@@ -41,6 +41,7 @@ import { addUser, deleteUser, getUser, updateUser } from '../../api/user';
 import { useUserStore } from '../../store/user/user';
 import { tmpUserData, type User } from '../../components/login/login';
 import FormView from './FormView.vue';
+import { getCurrentFormattedTime } from '../../components/time/time';
 
 const store = useUserStore();
 const searchQuery = ref('');
@@ -86,19 +87,6 @@ onMounted(async () => {
 const handleSearch = () => {
     // computed属性会自动更新，无需额外操作
 };
-
-const getCurrentFormattedTime = (): string => {
-  const now = new Date();
-  
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  
-  return `${year}-${month}-${day} : ${hours}:${minutes}`;
-}
 
 const mapRole = (role: boolean) => {
       //console.log('role:', role);
@@ -171,13 +159,18 @@ const handleDeleteUser = async(row: any) => {
 .user-search-input{
    width: 300px;
    margin-right: 20px;
-   margin-left: 1%;
+   display: flex; 
+   align-items: center; 
+   gap: 10px;
 }
 
 .user-search-btn{
     width: 100px;
-    margin-right: 50%;
 }
+
+/* .user-add-btn{
+    margin-left: auto
+} */
 
 .user-table {
     width: 100%;
@@ -199,16 +192,14 @@ const handleDeleteUser = async(row: any) => {
     height: 50px;
     display: flex;
     align-items: center;
-    /* background-color: rgb(227, 237, 237); */
 }
 
 .user-table-container{
      width: 100%;
-     height: 410px;
+     height: 80%;
      display: flex;
      justify-content: center;
      align-items: center;
-     background-color: azure;
 }
 
 .user-dialog{
@@ -222,10 +213,6 @@ const handleDeleteUser = async(row: any) => {
     background-color: rgb(255, 0, 8);
 }
 
-/* .user-edit-btn{
-
-} */
-
 .user-pagination-container{
     width: 100%;
     height: 50px;
@@ -233,5 +220,17 @@ const handleDeleteUser = async(row: any) => {
     display: flex;
     justify-content: right;
     background-color: rgb(241, 246, 246);
+}
+
+.user-table .el-table__header{
+    width: 100% !important;
+}
+
+.user-table .el-table__header-wrapper{
+    width: 100% !important;
+}
+
+.user-table .el-table__body{
+    width: 100% !important;
 }
 </style>

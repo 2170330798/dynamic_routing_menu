@@ -50,7 +50,7 @@ import FormView from './FormView.vue';
     width: 120px;
     height: 120px;
     margin-bottom: 100%;
-    /* background-color: #ffffff; */
+    
 }
 
 .header-title{

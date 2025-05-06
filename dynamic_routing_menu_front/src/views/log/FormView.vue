@@ -56,12 +56,20 @@ const getProtocolName = (protocol: number) => {
 
 <style lang="css">
 .traffic-table{
-    margin-bottom: 10%;
-    height:  500px;
+    margin-bottom: 5%;
+    height:  80%;
+    width: 800px;
 }
 
 .traffic-header-row{
+    color: #000;
     text-align: center;
 }
 
+.traffic-table .el-table__body {
+    width: 100% !important;
+}
+.traffic-table .el-table__body td {
+    white-space: nowrap;
+}
 </style>

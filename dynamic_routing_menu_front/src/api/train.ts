@@ -5,7 +5,7 @@ import { TRAIN_MODEL_REQUEST_API } from "../vite-env.d";
 
 export const trainModel = async(data :TRAIN) => {
 
-  
+
       const request = await axios.post(TRAIN_MODEL_REQUEST_API, data);
       console.log('提交训练数据', data);
       if (request.data.code === 200){

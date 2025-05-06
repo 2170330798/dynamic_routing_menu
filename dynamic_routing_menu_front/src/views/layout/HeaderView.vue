@@ -1,108 +1,48 @@
 <template>
-    <div class="home-header">
-        <div class="avatar-container">
-          <el-avatar :size="45" :src="circleUrl" @click="centerDialogVisible = true" >
-          </el-avatar>
-        </div>
-        <el-button class="exit-btn" type="primary" @click="logout">退出</el-button>
-        
-        <el-dialog class="avatar-dialog" v-model="centerDialogVisible" :showClose="false" destroy-on-close :modal="false" :append-to-body="false">              
-        </el-dialog> 
-        
-    </div>
+  <div class="header-avatar-container">
+      <el-avatar :size="40" :src="avatarUrl" :key="avatarUrl" @error="errorHandler">
+        <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png?v=1.0" alt="UserAvatar" />
+      </el-avatar>
+  </div>
+  <el-button class="loginout-btn" type="primary" @click="logout">退出</el-button>
+
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import { computed } from 'vue';
 import { useAuthStore } from '../../store/auth/auth';
-import { useRouter } from 'vue-router'; 
-const centerDialogVisible = ref(false);
+import router from '../../router';
+
+const errorHandler = () => true
 const store = useAuthStore();
-const router = useRouter();
-const state = reactive({
-  circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-  sizeList: ['small'] as const,
-})
-
-const { circleUrl} = toRefs(state)
-
-const setAvatar = () => {
-    state.circleUrl = store.getLoginInfo.avatar;
-    console.log('url:', state.circleUrl);
-}
 
 const logout = () => {
       store.setIsAuthenticated(false);
       router.push('/login');
 }
 
-onMounted(()=>{
-    
-    setAvatar();
-})
+// const state = reactive({
+//   circleUrl: store.getLoginInfo.avatar
+// });
+
+// const { circleUrl } = toRefs(state);
+// 使用计算属性确保头像URL响应式更新
+const avatarUrl = computed(() => store.getLoginInfo?.avatar || '');
+console.log(store.getLoginInfo?.avatar);
 
 </script>
 
-
 <style lang="css">
-.home-header {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    background-color: rgb(254, 254, 255);
-    position: relative; /* 添加相对定位 */
-}
 
-.avatar-container {
-    width: 45px;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative; /* 添加相对定位 */
-}
-
-.exit-btn{
-    margin-left: 90%;
-}
-
-.avatar-dialog{
-   width: 200px;
-   height: 300px;
-   position: absolute;
-   left: 5%;
-   top: 0%;
-   background-color: rgb(248, 249, 249);
-}
-
-/* 移除默认的遮罩层 */
-.avatar-dialog .el-overlay {
-  background-color: transparent !important;
-  pointer-events: none;
-}
-
-.avatar-dialog .el-overlay-dialog {
-  pointer-events: auto;
-}
-
-
-.popover-base-box {
-  width: 600px;
-}
-
-.popover-base-box .row {
+.header-avatar-container {
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.popover-base-box .center {
   justify-content: center;
 }
 
-.popover-base-box .box-item {
-  width: 110px;
-  margin-top: 10px;
+.loginout-btn{
+    margin-left: 90%;
 }
 </style>

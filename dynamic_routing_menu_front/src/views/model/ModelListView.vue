@@ -8,9 +8,9 @@
         <el-table class="model-table" :data="filteredTraffic" :header-cell-class-name="'table-header-cell'" border>
             <el-table-column prop="modelId" label="模型ID" width="80" align="center"/>
             <el-table-column prop="modelName" label="模型名字" width="200" align="center"/>
-            <el-table-column prop="frameId" label="模型框架" width="200" align="center">
+            <el-table-column prop="frame" label="模型框架" width="200" align="center">
                 <template #default="{row}">
-                      {{ getframeName(row.frameId) }}
+                      {{ getframeName(row.frame) }}
                 </template>
             </el-table-column>
             <el-table-column prop="modelVersion" label="模型版本" width="200" align="center"/>
@@ -47,6 +47,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { useModelStore } from '../../store/model';
 import { type IMODEL } from '../../components/model/model';
 import { deleteModel, getModelData, updateModel } from '../../api/model';
+import { getCurrentFormattedTime } from '../../components/time/time';
 
 const store = useModelStore();
 const searchQuery = ref('');
@@ -109,7 +110,7 @@ const handleApplyModel = async (row: IMODEL, newStatus: boolean) => {
     );
 
     // 更新数据
-    const updatedModel = { ...row, isApply: newStatus, updateTime: new Date() };
+    const updatedModel = { ...row, isApply: newStatus, updateTime: new Date().toISOString() };
     const req = await updateModel(updatedModel);
 
     // 重新加载数据
@@ -155,7 +156,6 @@ const handleDeleteModel = async(row: any) => {
 .model-search-input{
    width: 300px;
    margin-right: 20px;
-   margin-left: 1%;
 }
 
 .model-search-btn{
@@ -170,36 +170,32 @@ const handleDeleteModel = async(row: any) => {
     color: #000;
 }
 
-
-.model-table-header-cell{
-    font-weight: bold;
+.model-table .el-table__header .cell {
     font-size: 14px;
-    color: #333;
-    background-color: #f5f7fa !important;
+    line-height: 24px;
+    color: #000;
 }
+
 
 .input-container{
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
-    /* background-color: rgb(227, 237, 237); */
 }
 
 .model-table-container{
      width: 100%;
-     height: 410px;
+     height: 80%;
      display: flex;
      justify-content: center;
      align-items: center;
-     background-color: azure;
 }
 
 .model-dialog{
     text-align: center;
     width: 650px;
     height: 420px;
-    /* background-color: rgb(165, 154, 154); */
 }
 
 .model-delete-btn{
@@ -211,5 +207,20 @@ const handleDeleteModel = async(row: any) => {
      --el-switch-on-color: #409EFF;
      --el-switch-off-color: #909399;
      margin-right: 15px;
+}
+
+.model-table .el-table__header-wrapper{
+    width: 100% !important;
+}
+
+.model-table .el-table__header{
+    width: 100% !important;
+}
+
+.model-table .el-table__body {
+    width: 100% !important;
+}
+.model-table .el-table__body td {
+    white-space: nowrap;
 }
 </style>

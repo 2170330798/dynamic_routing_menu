@@ -161,14 +161,14 @@ const handleEditMenu = (row: ICurrentMenuItem) => {
 
 <style>
 .menu-search-input{
-   width: 350px;
+   width: 400px;
    margin-right: 10px;
    margin-left: 0%;
 }
 
 .menu-search-btn{
     width: 100px;
-    margin-right: 60%;
+    margin-right: 50%;
 }
 
 .menu-table {
@@ -188,7 +188,7 @@ const handleEditMenu = (row: ICurrentMenuItem) => {
 
 .menu-table-container {
   width: 100%;
-  height: 75vh;
+  height: 85%;
   overflow-x: auto; /* 关键：添加水平滚动 */
   background-color: rgb(246, 249, 249);
   margin-top: 1%;
@@ -227,7 +227,6 @@ const handleEditMenu = (row: ICurrentMenuItem) => {
     text-align: center;
     width: 650px;
     height: 420px;
-    /* background-color: rgb(165, 154, 154); */
 }
 
 .menu-delete-btn{

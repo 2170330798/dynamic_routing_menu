@@ -1,13 +1,3 @@
-
-export interface TrainData{
-    
-    file: string;
-    databse: string;
-    frameId: number;
-    frameName: string;
-
-}
-
 export interface TRAIN{
       csvSourcePath: string;//训练数据集csv文件路径
       csvDestPath: string;//保存打乱数据集csv文件路径
@@ -21,12 +11,16 @@ export interface TRAIN{
       modelId: number;//模型ID
       modelName: string;//模型名字
       modelVersion: string;//模型版本
-      frameId: number;//框架ID
+      frame: number;//框架ID
       modelPath: string;
       modelSavePath: string;//模型保存路径
-      trainModelWays: boolean;
-      isSaveCsvPath: boolean; //是否保存打乱的数据集
+      isSaveCsvData: boolean; //是否保存打乱的数据集
       taskId: string; //任务进程ID
+      patience: number;
+      initMode: number;
+      factor: number;
+      weightDecay: number;
+      validateMode: number;
 }
 
 export const trainDataItem: TRAIN = {
@@ -40,14 +34,18 @@ export const trainDataItem: TRAIN = {
   stepSize: 0,
   gamma: 0,
   modelName: "",
-  frameId: 0,
+  frame: 0,
   modelSavePath: "",
-  isSaveCsvPath: false,
+  isSaveCsvData: false,
   modelVersion: "",
   modelId: 0,
   taskId: "",
   modelPath: '',
-  trainModelWays: false
+  patience: 0,
+  initMode: 0,
+  factor: 0,
+  weightDecay: 0,
+  validateMode: 0
 }
 
 // 在组件外部定义常量
@@ -62,33 +60,38 @@ export const INITIAL_TRAIN_DATA: TRAIN = {
   stepSize: 0,
   gamma: 0,
   modelName: "",
-  frameId: 0,
+  frame: 0,
   modelSavePath: "",
-  isSaveCsvPath: false,
+  isSaveCsvData: false,
   modelVersion: "",
   modelId: 0,
   taskId: "",
-  modelPath: '',
-  trainModelWays: false
+  modelPath: "",
+  patience: 0,
+  initMode: 0,
+  factor: 0,
+  weightDecay: 0,
+  validateMode: 0
 };
 
 export const train_data = {
-  csvSourcePath: "F:\\PythonWeb\\myDjango\\app\\dataset\\train_dataset_03.csv",//训练数据集csv文件路径
-  csvDestPath: "",//保存打乱数据集csv文件路径
-  labelColumn: "Label",//Label标签列
-  batchSize: 32,//训练数据批次大小
-  rows: 3000,//读取csv多少行
-  numEpochs: 2,//训练次数
-  lr: 0.01,//学习率
-  stepSize: 32,//动态更新学习率的步长
-  gamma: 0.1,//学习率衰减比率
-  modelId: 1,//模型ID
-  modelName: "model_test",//模型名字
-  modelVersion: "v1.0.0",//模型版本
-  frameId: 1,//框架ID
-  modelPath: "",
-  modelSavePath: "F:\\PythonWeb\\myDjango\\app\\model",//模型保存路径
-  trainModelWays: false,
-  isSaveCsvPath: false, //是否保存打乱的数据集
-  taskId: "task_123" //任务进程ID
+    task_id: "task_123",
+    num_epochs: 5,
+    batch_size: 32,
+    label_column: "Label",
+    patience: 5,
+    lr: 0.001,
+    model_path: "F:\\PythonWeb\\myDjango\\app\\model\\rnn_models\\model-01.pth",
+    model_save_path: "F:\\PythonWeb\\myDjango\\app\\model\\rnn_models",
+    csv_source_path: 'F:\\PythonWeb\\myDjango\\app\\dataset\\train_dataset_03.csv',
+    model_id: 14, 
+    model_version: "v1.0.0", 
+    model_name: "model-02",
+    frame_id: 2,
+    init_mode: 0,
+    factor: 0.5,
+    weight_decay: 1e-5,
+    validate_mode: 0,
+    csv_dest_file: "",
+    is_save_data: false
 }

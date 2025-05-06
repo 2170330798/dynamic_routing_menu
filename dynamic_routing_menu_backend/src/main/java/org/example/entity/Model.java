@@ -17,13 +17,11 @@ public class Model {
   private Integer modelId;
   private String modelVersion;
   private String modelName;
-  private Integer frameId;
+  private Integer frame;
   private double loss;
   private double accuracy;
   private Date createDate;
   private Date updateTime;
   private String modelPath;
   private Boolean isApply;
-
-
 }

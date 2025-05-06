@@ -1,25 +1,28 @@
 <template>
-    <div class="log-header-container">
-      <h1>日志管理</h1>
-    </div>
-  
-    <div class="log-table-container">
-      <FormView />
-    </div>
-  
-    <div class="traffic-pagination-container">
-      <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        :page-sizes="[10, 20, 30, 50]"
-        :background="background"
-        layout="sizes, prev, pager, next"
-        :total="total"
-        @update:page-size="handleSizeChange"
-        @update:current-page="handleCurrentChange"
-      />
-    </div>
-  </template>
+  <div class="log-container">
+      <div class="log-header-container">
+        <h1>日志管理</h1>
+      </div>
+    
+      <div class="log-table-container">
+        <FormView />
+      </div>
+    
+      <div class="traffic-pagination-container">
+        <el-pagination
+          class="traffic-pagination"
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="[10, 20, 30, 50]"
+          :background="background"
+          layout="sizes, prev, pager, next"
+          :total="total"
+          @update:page-size="handleSizeChange"
+          @update:current-page="handleCurrentChange"
+        />
+      </div>
+  </div>
+</template>
   
 <script lang="ts" setup>
 import FormView from './FormView.vue';
@@ -72,6 +75,11 @@ onMounted(() => {
 </script>
 
 <style lang="css">
+.log-container{
+   width: 100%;
+   height: 95%;
+}
+
 .log-header-container{
     width: 100%;
     display: flex;
@@ -82,7 +90,7 @@ onMounted(() => {
 
 .log-table-container{
     width: 100%;
-    height: 500px;
+    height: 70%;
     display: flex;
     justify-content: center;
 }
@@ -90,9 +98,14 @@ onMounted(() => {
 .traffic-pagination-container{
     width: 100%;
     height: 50px;
-    margin-bottom: 10%;
     display: flex;
+    margin-bottom: 0%;
     justify-content: right;
+    align-items: center;
     background-color: rgb(241, 246, 246);
+}
+
+.traffic-pagination{
+    margin-bottom: 0%;
 }
 </style>

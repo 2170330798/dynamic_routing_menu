@@ -260,7 +260,6 @@ watch(() => props.currentMenu, (newVal) => {
 .menu-form-container {
     width: 600px;
     height: 350px;
-    /* background-color: rgb(184, 191, 191); */
     display: flex;
     flex-direction: column; /* 改为垂直排列 */
     justify-content: flex-start; /* 从顶部开始排列 */
@@ -270,11 +269,10 @@ watch(() => props.currentMenu, (newVal) => {
 .menu-header-container {
     width: 100%;
     height: 50px;
-    /* background-color: bisque; */
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border-bottom: 1px solid rgb(175, 176, 239); */
+    
 }
 
 .menu-el-form{
@@ -289,7 +287,7 @@ watch(() => props.currentMenu, (newVal) => {
    justify-content: center;
    align-items: center;
    margin-left: 20px;
-   /* background-color: rgb(255, 255, 255); */
+  
 }
 
 .add-btn{

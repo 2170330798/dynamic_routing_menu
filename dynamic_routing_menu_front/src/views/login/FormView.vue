@@ -24,17 +24,14 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import {  type User } from '../../components/login/login'
+import {  tmpUserData, type User } from '../../components/login/login'
 import { useAuthStore } from '../../store/auth/auth';
 import { login } from '../../api/login';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const ruleFormRef = ref<FormInstance>();
 const store = useAuthStore();
-const loginForm = reactive({
-      userName: "",
-      password: ""
-});
+const loginForm = reactive(tmpUserData);
 
 //表单校验规则
 const rules = reactive<FormRules <User>>({
@@ -83,7 +80,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
     align-items: center;
     border-radius: 8%;
     box-shadow: 0px 0px 5px 5px rgba(161, 170, 170, 0.387);
-    /* background-color: rgba(254, 254, 254, 0.02); */
 }
 .login-ruleForm{
     width: 100%;
@@ -109,6 +105,5 @@ const resetForm = (formEl: FormInstance | undefined) => {
     justify-content: right;
     align-items: center;
     margin-top: 25%;
-    /* background-color: blanchedalmond; */
 }
 </style>

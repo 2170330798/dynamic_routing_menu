@@ -57,6 +57,9 @@ public class ModelServiceImpl extends ServiceImpl<ModelMapper, Model> implements
             return false;
         }
 
+        if (model.getIsApply()) {
+            return false;
+        }
         try {
             Path path = Paths.get(model.getModelPath());
             boolean deleted = Files.deleteIfExists(path); // Java 7+

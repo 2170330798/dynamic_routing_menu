@@ -2,11 +2,11 @@ export interface IMODEL {
     modelId: number;
     modelVersion: string;
     modelName: string;
-    frameId: number;
+    frame: number;
     loss: number;
     accuracy: number;
-    createDate: Date;
-    updateTime: Date;
+    createDate: string;
+    updateTime: string;
     modelPath: string;
     isApply: boolean;
 }
@@ -18,11 +18,11 @@ export const tmpIModel: IMODEL = {
     modelName: "",
     loss: 0,
     accuracy: 0,
-    createDate: new Date(2024, 0, 0),
-    updateTime: new Date(2024, 0, 0),
+    createDate: '',
+    updateTime: '',
     modelPath: "",
     isApply: false,
-    frameId: 0
+    frame: 0
 }
 
 export const setTmpModelList = (row: any) => {
