@@ -6,21 +6,28 @@ import { connectWebSocket,
     memory,
     network,
     disconnectWebSocket
-} from '../../components/system/system';
+} from '../../components/system/websocket';
 
 const metrics = ref<SystemMetrics>();
 
 
 
+// const startMonitor = () => {
+        
+//         connectWebSocket('ws://localhost:8080/ws', '/topic/system-metrics', (newMetrics) => {
+//           metrics.value = newMetrics;
+//         });
+        
+//         // 触发后端处理
+//         //fetch('http://localhost:8080/system/info', { method: 'POST' });
+// };
+
 const startMonitor = () => {
-        
-        connectWebSocket('ws://localhost:8080/ws', '/topic/system-metrics', (newMetrics) => {
-          metrics.value = newMetrics;
-        });
-        
-        // 触发后端处理
-        fetch('http://localhost:8080/system/info', { method: 'POST' });
-};
+  connectWebSocket("ws://localhost:8000/ws/system-metrics/", (newMetrics) => {
+    metrics.value = newMetrics;
+    console.log("Received metrics:", metrics);
+  });
+}
 
 const stoptMonitor = () => {
      disconnectWebSocket();

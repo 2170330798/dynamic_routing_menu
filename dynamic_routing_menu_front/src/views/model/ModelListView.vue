@@ -47,7 +47,6 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { useModelStore } from '../../store/model';
 import { type IMODEL } from '../../components/model/model';
 import { deleteModel, getModelData, updateModel } from '../../api/model';
-import { getCurrentFormattedTime } from '../../components/time/time';
 
 const store = useModelStore();
 const searchQuery = ref('');

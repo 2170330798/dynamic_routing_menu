@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMenuStore } from "../store/menu";
 import type { IMenuItem, IMenuList } from "../components/menu/menu";
 import pinia from "../store";
-import { ADD_MENU_REQUEST_API, DELETE_MENU_REQUEST_API, GET_MENU_REQUEST_API, UPDATE_MENU_REQUEST_API } from "../vite-env.d";
+import { ADD_MENU_REQUEST_API, ADD_MENU_REQUEST_API_DJANGO, DELETE_MENU_REQUEST_API, DELETE_MENU_REQUEST_API_DJANGO, GET_MENU_REQUEST_API, GET_MENU_REQUEST_API_DJANGO, UPDATE_MENU_REQUEST_API } from "../vite-env.d";
 // 定义一维化的类型（移除 children）
 export interface IFlatMenuItem extends IMenuList {
   // 可以额外添加扁平化后的辅助字段（可选）
@@ -45,7 +45,7 @@ export const getMenuData = async () => {
     
     const store = useMenuStore(pinia);
     try {
-      const request = await axios.get(GET_MENU_REQUEST_API);
+      const request = await axios.get(GET_MENU_REQUEST_API_DJANGO);
       if (request.data.code === 200) {
        
         //将响应数据存到store中
@@ -93,7 +93,7 @@ export const addMenu = async(data : IMenuList) => {
 
     
     try {
-      const request = await axios.post(ADD_MENU_REQUEST_API, data);
+      const request = await axios.post(ADD_MENU_REQUEST_API_DJANGO, data);
       if (request.data.code === 200){
           console.log('提交数据成功', request.data.code);
           console.log('提交数据', data);
@@ -140,7 +140,7 @@ export const addMenu = async(data : IMenuList) => {
 export const deleteMenu = async(menuid: number) => {
 
   try {
-    const request = await axios.delete(DELETE_MENU_REQUEST_API+`?id=${menuid}`);
+    const request = await axios.delete(DELETE_MENU_REQUEST_API_DJANGO+`?id=${menuid}`);
     if (request.data.code === 200){
         console.log('删除数据成功', request.data.code);
         return '删除数据成功';

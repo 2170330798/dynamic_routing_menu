@@ -1,6 +1,6 @@
 import axios from "axios";
 import pinia from "../store";
-import { ADD_FRAME_REQUEST_API, DELETE_FRAME_REQUEST_API, GET_FRAME_REQUEST_API, UPDATE_FRAME_REQUEST_API } from "../vite-env.d";
+import { ADD_FRAME_REQUEST_API, DELETE_FRAME_REQUEST_API, GET_FRAME_REQUEST_API, GET_FRAME_REQUEST_API_DJANGO, UPDATE_FRAME_REQUEST_API } from "../vite-env.d";
 import { useFrameStore } from "../store/frame/frame";
 import type { IFrame } from "../components/frame/frame";
 
@@ -9,7 +9,7 @@ export const getFrameData = async () => {
     
     const store = useFrameStore(pinia);
     try {
-      const request = await axios.get(GET_FRAME_REQUEST_API);
+      const request = await axios.get(GET_FRAME_REQUEST_API_DJANGO);
       if (request.data.code === 200) {
        
         //将响应数据存到store中

@@ -6,7 +6,7 @@ import { connectWebSocket,
     memory,
     network,
     disconnectWebSocket 
-} from '../../components/system/system';
+} from '../../components/system/websocket';
 import SystemMonitorView from './SystemMonitorView.vue';
 import CpuMonitorView from './CpuMonitorView.vue';
 import MemoryMonitorView from './MemoryMonitorView.vue';
@@ -22,14 +22,30 @@ const systemData = ref<{
 
 const metrics = ref<SystemMetrics>();
 
+// onMounted(() => {
+//     // 获取监控数据
+//     connectWebSocket('ws://localhost:8080/ws', '/topic/system-metrics', (newMetrics) => {
+//           metrics.value = newMetrics;
+//     });
+    
+//     // 触发后端处理
+//     fetch('http://localhost:8080/system/info', { method: 'POST' });
+
+//     // 转换为普通值
+//     systemData.value = {
+//         cpuUsage: toValue(cpu),
+//         memory: toValue(memory),
+//         network: toValue(network) // 使用 toValue 解构 network
+//     };
+    
+//     isLoading.value = false;
+// });
+
 onMounted(() => {
     // 获取监控数据
-    connectWebSocket('ws://localhost:8080/ws', '/topic/system-metrics', (newMetrics) => {
+    connectWebSocket('ws://localhost:8000/ws/system-metrics/', (newMetrics) => {
           metrics.value = newMetrics;
     });
-    
-    // 触发后端处理
-    fetch('http://localhost:8080/system/info', { method: 'POST' });
 
     // 转换为普通值
     systemData.value = {
@@ -40,6 +56,7 @@ onMounted(() => {
     
     isLoading.value = false;
 });
+
 
 
 onUnmounted(()=>{
@@ -103,5 +120,15 @@ h1 {
     padding: 40px;
     color: #666;
     font-size: 1.2em;
+}
+
+/* 在全局样式或组件样式中添加 */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 和 Edge */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari 和 Opera */
 }
 </style>

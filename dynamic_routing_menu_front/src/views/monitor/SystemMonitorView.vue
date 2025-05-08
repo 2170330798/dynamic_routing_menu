@@ -1,7 +1,7 @@
 <!-- src/components/SystemStats.vue -->
 <script setup lang="ts">
 import { computed } from 'vue';
-import { memory, network } from '../../components/system/system';
+import { memory, network } from '../../components/system/websocket';
 const props = withDefaults(defineProps<{
     cpuUsage: {
         usage: number,       // 转换为number
@@ -51,10 +51,8 @@ const memoryStatus = computed(() => {
     return 'success';
 });
 
-console.log(memory);
-console.log(network);
-// 从 props.network 中解构出 uploadSpeed 和 downloadSpeed
-const { uploadSpeed, downloadSpeed } = props.network;
+// console.log('memory:',memory);
+// console.log('network:',network);
 </script>
 
 <template>
@@ -75,9 +73,9 @@ const { uploadSpeed, downloadSpeed } = props.network;
             </div>
             <div class="stat-item">
                 <h3>Network</h3>
-                <div class="stat-value">{{ downloadSpeed }} KB/s</div>
+                <div class="stat-value">{{ network.downloadSpeed }} KB/s</div>
                 <div class="stat-label">Download</div>
-                <div class="stat-value">{{ uploadSpeed }} KB/s</div>
+                <div class="stat-value">{{ network.uploadSpeed }} KB/s</div>
                 <div class="stat-label">Upload</div>
             </div>
         </div>

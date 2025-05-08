@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useModelStore } from "../store/model";
 import pinia from "../store";
-import { DELETE_MODEL_REQUEST_API, GET_MODEL_REQUEST_API, UPDATE_MODEL_REQUEST_API } from "../vite-env.d";
+import { DELETE_MODEL_REQUEST_API, DELETE_MODEL_REQUEST_API_DJANGO, GET_MODEL_REQUEST_API, GET_MODEL_REQUEST_API_DJANGO, UPDATE_MODEL_REQUEST_API } from "../vite-env.d";
 import type { IMODEL } from "../components/model/model";
 
 
@@ -9,7 +9,7 @@ export const getModelData = async () => {
     
     const store = useModelStore(pinia);
     try {
-      const request = await axios.get(GET_MODEL_REQUEST_API);
+      const request = await axios.get(GET_MODEL_REQUEST_API_DJANGO);
       if (request.data.code === 200) {
        
         //将响应数据存到store中
@@ -104,7 +104,7 @@ export const getModelData = async () => {
 export const deleteModel = async(id: number) => {
 
   try {
-    const request = await axios.delete(DELETE_MODEL_REQUEST_API+`?id=${id}`);
+    const request = await axios.delete(DELETE_MODEL_REQUEST_API_DJANGO+`?id=${id}`);
     if (request.data.code === 200){
         console.log('删除数据成功', request.data.code);
         return '删除数据成功';
